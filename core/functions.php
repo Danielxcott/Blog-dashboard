@@ -140,7 +140,7 @@ function login(){
 
 //category start
 function categoryAdd(){
-    $title = $_POST['title'];
+    $title = textFilter(strip_tags($_POST['title']));
     $color = $_POST['color'];
     $user_id = $_SESSION['user']['id'];
     $sql = "INSERT INTO category (title,color,user_id) VALUES ('$title','$color','$user_id')";
