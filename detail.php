@@ -2,10 +2,19 @@
 <title>Home</title>
 <?php require_once "front_panel/side.php"  ?>
 <?php
-$id = $_GET['id'];
-$current = post($id);
-$currentCate = $current['category_id'];
 
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
+    $current = post($id);
+}else{
+    redirect("index.php");
+}
+
+if(!$current){ //if it doesn't have a current id or a user types id doesn't includes in the DB , it will takes you back to the index page.
+    redirect("index.php");
+}   
+
+$currentCate = $current['category_id'];
 if (isset($_SESSION['user']['id'])) {
     $userId = $_SESSION['user']['id'];
 } else {

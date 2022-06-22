@@ -184,13 +184,20 @@ function categoryRemovePin($id){
     $sql = "UPDATE category SET ordering = '0' WHERE id = $id" ;
     return runQuery($sql); 
 }
+function isCategory($id){
+    if(category($id)){
+        return $id;
+    }else{
+        return alert("your category is invalid");
+    }
+}
 //category end
 
 //Post start
 function postAdd(){
     $title = textFilter($_POST['title']);
     $description = textFilter($_POST['description']);
-    $category_id = $_POST['category_id'];
+    $category_id = isCategory($_POST['category_id']);
     $user_id = $_SESSION['user']['id'];
     $sql = "INSERT INTO posts (title,description,user_id,category_id) VALUES ('$title','$description','$user_id','$category_id')";
     if(runQuery($sql)){
@@ -238,7 +245,7 @@ function fCategories(){
     $sql = "SELECT * FROM category ORDER BY ordering DESC";
     return fetchAll($sql);
 }
-function fPostsByCate($cate_id,$limit="9999",$post_id=0){
+function fPostsByCate($cate_id,$limit="9999",$post_id=0){ //Not showing current posts at recommed page.
     $sql = "SELECT * FROM posts WHERE category_id = $cate_id AND id != $post_id ORDER BY id DESC LIMIT $limit";
     return fetchAll($sql);
 }   
@@ -355,3 +362,11 @@ function dPosts($limit=999999){
     return fetchAll($sql);
 }
 //Dashboard End
+
+//Api Start
+function apiOutput($row){
+
+  echo  json_encode($row);
+  
+}
+//Api End
